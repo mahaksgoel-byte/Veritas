@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, useSpring } from 'framer-motion';
 import { ArrowRight, DoorOpen, Sparkles, Eye, Shield, Zap, } from 'lucide-react';
 import { Input } from '../../components/ui/Input';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
 
 /* =========================
@@ -533,11 +533,14 @@ export const LoginPage = () => {
       }
 
       switch (profile.role) {
-        case 'academia':
-          navigate('/academia');
+        case 'mentor':
+          navigate('/mentor');
           break;
-        case 'research':
-          navigate('/research');
+        case 'researcher':
+          navigate('/researcher');
+          break;
+        case 'admin':
+          navigate('/admin');
           break;
         default:
           throw new Error('Invalid user role');
@@ -571,7 +574,7 @@ export const LoginPage = () => {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="w-full max-w-[520px]"
         >
-          <div className="relative bg-gradient-to-br from-forest-800/60 via-forest-800/40 to-forest-900/60 backdrop-blur-2xl border border-accent/20 rounded-3xl p-12 shadow-[0_0_100px_rgba(16,185,129,0.15),0_20px_80px_rgba(0,0,0,0.6)]">
+          <div className="relative bg-gradient-to-br from-forest-800/60 via-forest-800/40 to-forest-900/60 backdrop-blur-2xl border border-accent/20 rounded-3xl p-6 shadow-[0_0_100px_rgba(16,185,129,0.15),0_20px_80px_rgba(0,0,0,0.6)]">
             
             {/* Decorative Corner Elements */}
             <div className="absolute top-0 left-0 w-20 h-20 border-l-2 border-t-2 border-accent/30 rounded-tl-3xl" />
@@ -587,8 +590,8 @@ export const LoginPage = () => {
             />
 
             {/* Header */}
-            <div className="mb-10">
-              <div className="flex items-center gap-3 mb-5">
+            <div className="mb-4">
+              <div className="flex items-center gap-3 mb-3">
                 <motion.div
                   animate={{ rotate: [0, 10, -10, 0] }}
                   transition={{ duration: 3, repeat: Infinity }}
@@ -616,7 +619,7 @@ export const LoginPage = () => {
             </div>
 
             {/* Form */}
-            <form onSubmit={handleLogin} className="space-y-6">
+            <form onSubmit={handleLogin} className="space-y-1">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -696,15 +699,7 @@ export const LoginPage = () => {
             </form>
 
             {/* Footer */}
-            <div className="mt-10 pt-8 border-t border-accent/20 flex justify-between items-center">
-              <Link
-                to="/signup"
-                className="text-sm font-semibold text-text-muted hover:text-accent flex items-center gap-2 transition-colors group"
-              >
-                Create new account
-                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-              </Link>
-
+            <div className="mt-2 pt-2 border-t border-accent/20 flex justify-end items-center">
               <motion.div
                 animate={{ rotate: [0, 5, -5, 0] }}
                 transition={{ duration: 4, repeat: Infinity }}

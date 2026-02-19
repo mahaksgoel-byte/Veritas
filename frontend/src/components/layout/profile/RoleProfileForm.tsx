@@ -1,6 +1,6 @@
 import { UserRole } from '../../../lib/profileService';
-import AcademiaForm from './forms/AcademiaForm';
 import ResearchForm from './forms/ResearchForm';
+import AdminForm from './forms/AdminForm';
 
 interface Props {
   role: UserRole;
@@ -16,10 +16,12 @@ export const RoleProfileForm = ({
   onChange,
 }: Props) => {
   switch (role) {
-    case 'academia':
-      return <AcademiaForm {...{ data, editing, onChange }} />;
+    case 'mentor':
+    case 'researcher':
     case 'research':
       return <ResearchForm {...{ data, editing, onChange }} />;
+    case 'admin':
+      return <AdminForm {...{ data, editing, onChange }} />;
     default:
       return null;
   }

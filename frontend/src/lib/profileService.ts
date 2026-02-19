@@ -1,8 +1,11 @@
 import { supabase } from './supabase';
 
-export type UserRole = 'academia' | 'research';
+export type UserRole = 'mentor' | 'researcher' | 'admin' | 'academia' | 'research';
 
 export const roleTableMap: Record<UserRole, string> = {
+  mentor: 'mentor',
+  researcher: 'researcher',
+  admin: 'admin',
   academia: 'academia',
   research: 'research',
 };

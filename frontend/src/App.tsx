@@ -8,13 +8,11 @@ import {
 import { ThemeProvider } from './contexts/ThemeContext';
 
 import { LoginPage } from './pages/Auth/LoginPage';
-import { SignupPage } from './pages/Auth/SignUpPage';
 
-import { AcademiaDashboard } from './pages/Academia/AcademiaDashboard';
-import { ResearchDashboard } from './pages/Research/ResearchDashboard';
+import { MentorDashboard } from './pages/Mentor/MentorDashboard';
+import { ResearcherDashboard } from './pages/Researcher/ResearcherDashboard';
+import { AdminDashboard } from './pages/Admin/AdminDashboard';
 import { AboutPage } from './pages/AboutPage';
-import { SubscriptionPage } from './pages/SubscriptionPage';
-import { ReviewsPage } from './pages/ReviewsPage';
 
 import { VeritasChatbot } from './VeritasChatbot';
 
@@ -37,27 +35,25 @@ function App() {
         <Routes>
           {/* ───── Public Routes (NO Chatbot) ───── */}
           <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
 
           {/* ───── Protected / App Routes ───── */}
           <Route element={<AppLayout />}>
-            {/* Academia Routes */}
-            <Route path="/academia" element={<AcademiaDashboard />} />
+            {/* Mentor Routes */}
+            <Route path="/mentor" element={<MentorDashboard />} />
             
-            {/* Research Routes */}
-            <Route path="/research" element={<ResearchDashboard />} />
+            {/* Researcher Routes */}
+            <Route path="/researcher" element={<ResearcherDashboard />} />
+            
+            {/* Admin Routes */}
+            <Route path="/admin" element={<AdminDashboard />} />
             
             {/* Shared Routes */}
             <Route path="/about" element={<AboutPage />} />
-            <Route path="/reviews" element={<ReviewsPage />} />
-            <Route path="/subscription" element={<SubscriptionPage />} />
           </Route>
 
           {/* ───── Root Redirect ───── */}
           <Route path="/" element={<Navigate to="/login" replace />} />
 
-          {/* ───── Catch All ───── */}
-          <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
       </ThemeProvider>
     </Router>

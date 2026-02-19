@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ChevronDown, BarChart3, Info, Star, CreditCard, User, Settings, LogOut } from 'lucide-react';
+import { ChevronDown, BarChart3, Info, User, Settings, LogOut } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
@@ -28,24 +28,34 @@ export const TopNav: React.FC = React.memo(() => {
   const getNavigationLinks = () => {
     if (!profile?.role) return [];
     
-    if (profile.role === 'academia') {
+    if (profile.role === 'mentor') {
       return [
-        { icon: BarChart3, label: 'Analysis', path: '/academia' },
+        { icon: BarChart3, label: 'Analysis', path: '/mentor' },
         { icon: Info, label: 'About', path: '/about' },
-        { icon: Star, label: 'Reviews', path: '/reviews' },
-        { icon: CreditCard, label: 'Subscription', path: '/subscription' },
       ];
-    } else {
+    } else if (profile.role === 'researcher' || profile.role === 'research') {
       return [
-        { icon: BarChart3, label: 'Analysis', path: '/research' },
+        { icon: BarChart3, label: 'Analysis', path: '/researcher' },
         { icon: Info, label: 'About', path: '/about' },
-        { icon: Star, label: 'Reviews', path: '/reviews' },
-        { icon: CreditCard, label: 'Subscription', path: '/subscription' }
+      ];
+    } else if (profile.role === 'admin') {
+      return [
+        { icon: BarChart3, label: 'Generation', path: '/admin' },
+        { icon: Info, label: 'About', path: '/about' },
       ];
     }
+    
+    // Default fallback for any other role
+    return [
+      { icon: BarChart3, label: 'Analysis', path: '/' },
+      { icon: Info, label: 'About', path: '/about' },
+    ];
   };
 
   const navigationLinks = getNavigationLinks();
+  console.log('Navigation Links:', navigationLinks);
+  console.log('Current Path:', location.pathname);
+  console.log('Profile Role:', profile?.role);
 
   /* ================= FETCH BASE PROFILE ================= */
 
@@ -169,8 +179,9 @@ export const TopNav: React.FC = React.memo(() => {
 
   const getRoleLabel = (profile: Profile | null): string => {
     if (!profile?.role) return 'USER';
-    if (profile.role === 'academia') return 'Academia';
-    if (profile.role === 'research') return 'Research';
+    if (profile.role === 'mentor') return 'Mentor';
+    if (profile.role === 'researcher') return 'Researcher';
+    if (profile.role === 'admin') return 'Admin';
     return profile.role;
   };
 
@@ -195,6 +206,10 @@ export const TopNav: React.FC = React.memo(() => {
               <Link
                 key={path}
                 to={path}
+                onClick={() => {
+                  console.log(`Clicked ${label} - navigating to: ${path}`);
+                  console.log('Current role:', profile?.role);
+                }}
                 className={`
                   group flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 relative overflow-hidden
                   ${isActive
@@ -286,18 +301,20 @@ export const TopNav: React.FC = React.memo(() => {
                     <span className="text-sm text-text-primary group-hover:text-accent transition-colors">My Profile</span>
                   </motion.button>
 
-                  {/* Settings */}
-                  <motion.button
-                    whileHover={{ backgroundColor: 'rgba(16, 185, 129, 0.1)' }}
-                    onClick={() => {
-                      setSettingsModalOpen(true);
-                      setDropdownOpen(false);
-                    }}
-                    className="w-full flex items-center gap-3 px-4 py-3 text-left transition-colors duration-200 group border-t border-forest-divider/30"
-                  >
-                    <Settings size={16} className="text-text-muted group-hover:text-accent transition-colors" />
-                    <span className="text-sm text-text-primary group-hover:text-accent transition-colors">Settings</span>
-                  </motion.button>
+                  {/* Settings - Hide for admin users */}
+                  {profile.role !== 'admin' && (
+                    <motion.button
+                      whileHover={{ backgroundColor: 'rgba(16, 185, 129, 0.1)' }}
+                      onClick={() => {
+                        setSettingsModalOpen(true);
+                        setDropdownOpen(false);
+                      }}
+                      className="w-full flex items-center gap-3 px-4 py-3 text-left transition-colors duration-200 group border-t border-forest-divider/30"
+                    >
+                      <Settings size={16} className="text-text-muted group-hover:text-accent transition-colors" />
+                      <span className="text-sm text-text-primary group-hover:text-accent transition-colors">Settings</span>
+                    </motion.button>
+                  )}
 
                   {/* Logout */}
                   <motion.button
