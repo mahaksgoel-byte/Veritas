@@ -28,12 +28,7 @@
 }
 
 /* Apply CSS variables to all elements */
-.dark body {
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-}
-
-.light body {
+body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
 }
